@@ -2,7 +2,7 @@
 """ Start API connection """
 
 from os import getenv
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -14,6 +14,12 @@ app.register_blueprint(app_views)
 def teardown_db(exception):
     """close the session after each request """
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    ''' handles 404 error with json '''
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == "__main__":
