@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""a new view for places"""
+"""
+A new view for places
+"""
 
 from api.v1.views import app_views
 from models import storage
