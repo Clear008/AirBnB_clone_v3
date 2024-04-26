@@ -16,7 +16,6 @@ from api.v1.views import app_views
 def get_the_reviews(place_id=None, review_id=None):
     """
     Method for Retrieving the list of all Review objects
-    or retrieves a specific Review by ID
     """
     if review_id:
         a_review = storage.get(Review, review_id)
