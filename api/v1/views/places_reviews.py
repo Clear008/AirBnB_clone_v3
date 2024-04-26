@@ -9,7 +9,7 @@ from models.review import Review
 from api.v1.views import app_views
 
 
-@app_views.route('/places/<place_id>/reviews',methods=['GET'],
+@app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
 @app_views.route('/reviews/<review_id>', methods=['GET'],
                  strict_slashes=False)
@@ -33,7 +33,7 @@ def get_the_reviews(place_id=None, review_id=None):
         abort(404)
 
 
-@app_views.route('/reviews/<review_id>',methods=['DELETE'], 
+@app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_the_review(review_id):
     """

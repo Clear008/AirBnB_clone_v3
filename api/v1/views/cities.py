@@ -76,7 +76,7 @@ def update_the_city(city_id):
     """
     method for Updating a City object
     """
-    if request.get_json(silent=True)is None:
+    if request.get_json(silent=True) is None:
         abort(400, 'Not a JSON')
     dt = storage.get("City", str(city_id))
     if dt is None:

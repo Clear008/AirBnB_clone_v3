@@ -2,7 +2,7 @@
 """
 This is a module that handls User objects
 """
-from flask import jsonify,make_response, request, abort
+from flask import jsonify, make_response, request, abort
 from models import storage
 from models.user import User
 from api.v1.views import app_views
@@ -13,22 +13,22 @@ from api.v1.views import app_views
 @app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
 def get_the_users(user_id):
-    """ 
+    """
     Method for Retrieving all Users object,
     otherwise retrieves a specific User object by ID
     """
     if user_id:
-      a_user = storage.get(User, user_id)
-      if a_user is None:
-        abort(404)
-      return jsonify(a_user.to_dict())
+        a_user = storage.get(User, user_id)
+        if a_user is None:
+            abort(404)
+        return jsonify(a_user.to_dict())
     else:
-      users_list = [user.to_dict() for user in storage.all(User).values()]
-      return jsonify(users_list)
-        
+        users_list = [user.to_dict() for user in storage.all(User).values()]
+        return jsonify(users_list)
+
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
-                strict_slashes=False)
+                 strict_slashes=False)
 def delete_the_user(user_id):
     """
     Method for Deleting a User object
@@ -74,7 +74,7 @@ def update_user(user_id):
         abort(400, 'Not a JSON')
 
     for k, v in data.items():
-        if k not in  ['id', 'email', 'created_at', 'updated_at']:
+        if k not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(a_user, k, v)
 
     storage.save()
