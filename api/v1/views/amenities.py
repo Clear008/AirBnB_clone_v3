@@ -30,6 +30,7 @@ def all_amenities():
                  methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def amenity_id(amenity_id):
+    """ manage amenity id """
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
