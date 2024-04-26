@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""places routes"""
+"""places routes api/v1/"""
 
 from flask import request, abort, jsonify
 from api.v1.views import app_views
@@ -13,6 +13,7 @@ from models.user import User
                  methods=['GET', 'POST'],
                  strict_slashes=False)
 def all_places(city_id):
+    """all places"""
     city = storage.get(City, city_id)
     if not city:
         abort(404)
@@ -41,6 +42,7 @@ def all_places(city_id):
                  methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def place_id(place_id):
+    """place id"""
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
