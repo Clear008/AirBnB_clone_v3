@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-""" Start API connection """
-
+"""Start Api connection"""
 from os import getenv
 from flask import Flask, make_response, jsonify
 from models import storage
