@@ -12,7 +12,7 @@ from models.review import Review
 from models.user import User
 
 
-@app_views.route('/status', methods=['GET'])
+@app_views.route('/status', strict_slashes=False)
 def status():
     """Returns the current response of the API."""
     return jsonify({"status": "OK"})
