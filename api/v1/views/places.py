@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-create a place route
-"""
+"""create places route"""
 
 from flask import request, abort, jsonify
 from api.v1.views import app_views
