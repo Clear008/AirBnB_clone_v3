@@ -76,14 +76,13 @@ def update_the_city(city_id):
     """
     method for Updating a City object
     """
-    a_city = request.get_json(silent=True)
-    if a_city is None:
+    if request.get_json(silent=True)is None:
         abort(400, 'Not a JSON')
-    objs = storage.get("City", str(city_id))
-    if objs is None:
+    dt = storage.get("City", str(city_id))
+    if dt is None:
         abort(404)
-    for k, v in a_city.items():
+    for k, v in request.get_json(silent=True).items():
         if k not in ["id", "created_at", "updated_at", "state_id"]:
-            setattr(objs, k, v)
-    objs.save()
-    return jsonify(objs.to_dict())
+            setattr(dt, k, v)
+    dt.save()
+    return jsonify(dt.to_dict())
