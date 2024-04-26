@@ -13,6 +13,7 @@ from models.amenity import Amenity
 
 @app_views.route('/status')
 def status():
+    """status ok"""
     return jsonify({"status": "OK"})
 
 
