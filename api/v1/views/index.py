@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''The index view for the API.'''
+"""The index view for the API."""
 
 from api.v1.views import app_views
 from flask import jsonify
