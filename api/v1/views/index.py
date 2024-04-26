@@ -1,20 +1,18 @@
 #!/usr/bin/python3
-"""The index view for the API."""
-
+"""my route is register in this index"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 from models.state import State
 from models.city import City
-from models.amenity import Amenity
-from models.place import Place
 from models.review import Review
 from models.user import User
+from models.place import Place
+from models.amenity import Amenity
 
 
-@app_views.route('/status', strict_slashes=False)
+@app_views.route('/status')
 def status():
-    """Returns the current response of the API."""
     return jsonify({"status": "OK"})
 
 
