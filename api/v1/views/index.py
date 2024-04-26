@@ -13,7 +13,7 @@ from models.amenity import Amenity
 
 @app_views.route('/status')
 def status():
-    """status ok"""
+    """Returns Json response with OK"""
     return jsonify({"status": "OK"})
 
 
@@ -30,6 +30,6 @@ def stats():
     }
     dictionary = {}
     for key, value in classes.items():
-        count = storage.count(key)
+        count = storage.count(key.__name__)
         dictionary[value] = count
     return jsonify(dictionary)
