@@ -2,7 +2,7 @@
 """
 This is a module that handls User objects
 """
-from flask import jsonify, make_response, request, abort
+from flask import Flask, jsonify, make_response, request, abort
 from models import storage
 from models.user import User
 from api.v1.views import app_views
@@ -14,8 +14,7 @@ from api.v1.views import app_views
                  strict_slashes=False)
 def get_the_users(user_id):
     """
-    Method for Retrieving all Users object,
-    otherwise retrieves a specific User object by ID
+    Method for Retrieving all Users object
     """
     if user_id:
         a_user = storage.get(User, user_id)
