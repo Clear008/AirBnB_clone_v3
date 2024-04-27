@@ -9,7 +9,9 @@ from models.place import Place
 from models.user import User
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET', 'POST', 'PUT', 'DELETE'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places',
+                 methods=['GET', 'POST', 'PUT', 'DELETE'],
+                 strict_slashes=False)
 def places_by_city(city_id):
     city = storage.get(City, city_id)
     if not city:
@@ -36,7 +38,9 @@ def places_by_city(city_id):
         return jsonify(place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', methods=['GET', 'POST', 'PUT', 'DELETE'], strict_slashes=False)
+@app_views.route('/places/<place_id>',
+                 methods=['GET', 'POST', 'PUT', 'DELETE'],
+                 strict_slashes=False)
 def place_by_id(place_id):
     place = storage.get(Place, place_id)
     if not place:
@@ -51,7 +55,11 @@ def place_by_id(place_id):
         data = request.get_json(silent=True)
         if not data:
             return jsonify("Not a JSON"), 400
-        key_to_ignore = ["id", "user_id", "city_id", "created_at", "updated_at"]
+        key_to_ignore = ["id",
+                         "user_id",
+                         "city_id",
+                         "created_at",
+                         "updated_at"]
         for key, value in data.items():
             if key not in key_to_ignore:
                 setattr(place, key, value)
