@@ -9,27 +9,23 @@ from models.review import Review
 from api.v1.views import app_views
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET'],
-                 strict_slashes=False)
-@app_views.route('/reviews/<review_id>', methods=['GET'],
-                 strict_slashes=False)
-def get_the_reviews(place_id=None, review_id=None):
-    """
-    Method for Retrieving the list of all Review objects
-    """
-    if review_id:
-        a_review = storage.get(Review, review_id)
-        if a_review is None:
-            abort(404)
-        return jsonify(a_review.to_dict())
-    elif place_id:
-        a_place = storage.get("Place", str(place_id))
-        if a_place is None:
-            abort(404)
-        reviews = [a_review.to_dict() for a_review in a_place.reviews]
-        return jsonify(reviews)
-    else:
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['GET'], strict_slashes=False)
+def get_all_reviews(place_id):
+    """Method that retrieves the list of all Review of a Place"""
+    place = storage.get("Place", str(place_id))
+    if place is None:
         abort(404)
+    all_reviews = [review.to_dict() for review in place.reviews]
+    return jsonify(all_reviews)
+
+
+@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
+def get_the_review(review_id):
+    """Method that Retrieves a Review object"""
+    if storage.get(Review, review_id) is None:
+        abort(404)
+    return jsonify(storage.get(Review, review_id).to_dict())
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
