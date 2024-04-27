@@ -71,7 +71,7 @@ class FileStorage:
 
     def get(self, cls, id):
         """retrieve one object of a class"""
-        item = f'{cls.__name__}.{id}'
+        item = '{}.{}'.format(cls.__name__, id)
         for key, value in self.__objects.items():
             if key == item:
                 return (value)
