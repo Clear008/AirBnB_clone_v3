@@ -11,19 +11,19 @@ from api.v1.views import app_views
 @app_views.route('/users', methods=['GET'],
                  strict_slashes=False)
 def get_users():
-    """Retrieves the list of all User objects"""
-    users = [user.to_dict() for user in storage.all(User).values()]
-    return jsonify(users)
+    """Retrieves the list of all User """
+    value = storage.all(User).values()
+    users_list = [user.to_dict() for user in value]
+    return jsonify(users_list)
 
 
 @app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
 def get_user(user_id):
     """Retrieves a User object"""
-    user = storage.get(User, user_id)
-    if user is None:
+    if storage.get(User, user_id) is None:
         abort(404)
-    return jsonify(user.to_dict())
+    return jsonify(storage.get(User, user_id).to_dict())
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
