@@ -6,6 +6,7 @@ This is a module that handls  Review objects
 from flask import jsonify, request, abort
 from models import storage
 from models.review import Review
+from models.place import Place
 from api.v1.views import app_views
 
 
