@@ -49,4 +49,4 @@ def amenity_id(amenity_id):
             if key not in key_to_ignore:
                 setattr(amenity, key, value)
         storage.save()
-        return jsonify(amenity), 200
+        return jsonify(amenity.to_dict())
