@@ -25,5 +25,19 @@ class User(BaseModel, Base):
         last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """initializes user"""
+        """
+        Initialize user object and set password
+        """
+        if 'password' in kwargs:
+            password = kwargs.pop('password')
+            self.__set_password(password)
         super().__init__(*args, **kwargs)
+
+    def __set_password(self, password):
+        """
+        Encrypt password using MD5
+        """
+        secure = hashlib.md5()
+        secure.update(password.encode("utf-8"))
+        secure_password = secure.hexdigest()
+        setattr(self, "password", secure_password)
