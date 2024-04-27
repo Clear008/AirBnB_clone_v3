@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""run my application"""
+"""run the app with style"""
+
+
 from os import getenv
 from flask import Flask, Blueprint, jsonify
 from models import storage
