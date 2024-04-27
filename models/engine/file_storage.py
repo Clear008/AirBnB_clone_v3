@@ -81,7 +81,7 @@ class FileStorage:
         """count the obj"""
         count = 0
         if cls:
-            item = f"{cls.__name__}"
+            item = "{}".format(cls.__name__)
             for key in self.__objects.keys():
                 key = key.split('.')[0]
                 if key == item:
