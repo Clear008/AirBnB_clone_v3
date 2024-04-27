@@ -13,7 +13,7 @@ def all_amenities():
     if (request.method == 'GET'):
         amenities = storage.all(Amenity).values()
         list_amenities = [amenity.to_dict() for amenity in amenities]
-        return jsonify(list_amenities)
+        return jsonify(list_amenities), 200
     if (request.method == 'POST'):
         json_data = request.get_json(silent=True)
         if not json_data:
