@@ -1,5 +1,7 @@
 #!/usr/bin/python3
+
 """my route is register in this index"""
+
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
