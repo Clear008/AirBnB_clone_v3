@@ -7,6 +7,7 @@ from flask import jsonify, request, abort
 from models import storage
 from models.review import Review
 from models.place import Place
+from models.user import User
 from api.v1.views import app_views
 
 
@@ -44,7 +45,7 @@ def delete_the_review(review_id):
         abort(404)
     storage.delete(review)
     storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route('/places/<place_id>/reviews',
@@ -53,21 +54,23 @@ def create_review(place_id):
     """
     Method for Creating a Review
     """
-    if storage.get("Place", str(place_id)) is None:
+    place = storage.get(Place, place_id)
+    if place is None:
         abort(404)
 
     dt = request.get_json(silent=True)
     if dt is None:
-        abort(400, 'Not a JSON')
+        return jsonify("Not a JSON"), 400
     if 'user_id' not in dt:
-        abort(400, 'Missing user_id')
+        return jsonify("Missing user_id"), 400
     if 'text' not in dt:
-        abort(400, 'Missing text')
+        return jsonify("Missing text"), 400
 
-    if storage.get("User", str(dt['user_id'])) is None:
+    user = storage.get(User, dt['user_id'])
+    if user is None:
         abort(404)
-
-    n_review = Review(place_id=place_id, **dt)
+    dt['place_id'] = place_id
+    n_review = Review(**dt)
     storage.new(n_review)
     storage.save()
 
@@ -80,17 +83,18 @@ def update_review(review_id):
     """
     Method for Updating a Review object
     """
-    if storage.get(Review, review_id) is None:
+    review = storage.get(Review, review_id)
+    if review is None:
         abort(404)
 
     dt = request.get_json(silent=True)
     if dt is None:
-        abort(400, 'Not a JSON')
+        return jsonify("Not a JSON"), 400
 
     ignore_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
     for key, value in dt.items():
         if key not in ignore_keys:
-            setattr(storage.get(Review, review_id).to_dict(), key, value)
+            setattr(review, key, value)
 
     storage.save()
-    return jsonify(storage.get(Review, review_id).to_dict()), 200
+    return jsonify(review.to_dict()), 200
