@@ -14,10 +14,12 @@ from api.v1.views import app_views
                  methods=['GET'], strict_slashes=False)
 def get_all_reviews(place_id):
     """Method that retrieves the list of all Review of a Place"""
-    place = storage.get("Place", str(place_id))
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    all_reviews = [review.to_dict() for review in place.reviews]
+    reviews = storage.all(Review).values()
+    all_reviews = [review.to_dict()
+                   for review in reviews if review.place_id == place_id]
     return jsonify(all_reviews)
 
 
@@ -25,9 +27,10 @@ def get_all_reviews(place_id):
                  strict_slashes=False)
 def get_the_review(review_id):
     """Method that Retrieves a Review object"""
-    if storage.get(Review, review_id) is None:
+    review = storage.get(Review, review_id)
+    if review is None:
         abort(404)
-    return jsonify(storage.get(Review, review_id).to_dict())
+    return jsonify(review.to_dict())
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
@@ -36,9 +39,10 @@ def delete_the_review(review_id):
     """
     Method for Deleting a Review object
     """
-    if storage.get(Review, review_id) is None:
+    review = storage.get(Review, review_id)
+    if review is None:
         abort(404)
-    storage.delete(storage.get(Review, review_id))
+    storage.delete(review)
     storage.save()
     return jsonify({})
 
