@@ -44,9 +44,9 @@ def amenity_id(amenity_id):
         json_data = request.get_json(silent=True)
         if not json_data:
             return jsonify('Not a JSON'), 400
-        key_to_ignore = ['id', 'created_at', 'updated_at']
+        for key in ['id', 'created_at', 'updated_at']:
+            json_data.pop(key, None)
         for key, value in json_data.items():
-            if key not in key_to_ignore:
-                setattr(amenity, key, value)
+            setattr(amenity, key, value)
         storage.save()
         return jsonify(amenity), 200
