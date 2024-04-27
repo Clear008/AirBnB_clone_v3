@@ -13,23 +13,16 @@ from models.amenity import Amenity
 
 @app_views.route('/status')
 def status():
-    """Returns Json response"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', strict_slashes=False)
+@app_views.route('/stats')
 def stats():
-    """Returns the number of objects by name"""
-    classes = {
-        City: "cities",
-        State: "states",
-        Amenity: "amenities",
-        User: "users",
-        Place: "places",
-        Review: "reviews"
-    }
-    dictionary = {}
+    classes = {"amenities": Amenity,  "cities": City,
+               "places": Place, "reviews": Review,
+               "states": State, "users": User}
+    dictionary_count = {}
     for key, value in classes.items():
-        count = storage.count(key.__name__)
-        dictionary[value] = count
-    return jsonify(dictionary)
+        dictionary_count[key] = storage.count(value)
+    return jsonify(dictionary_count)
+
