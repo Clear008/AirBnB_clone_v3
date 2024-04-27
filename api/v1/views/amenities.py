@@ -13,7 +13,7 @@ def all_amenities():
     if (request.method == 'GET'):
         amenities = storage.all(Amenity).values()
         list_amenities = [amenity.to_dict() for amenity in amenities]
-        return jsonify(list_amenities), 200
+        return jsonify(list_amenities)
     if (request.method == 'POST'):
         json_data = request.get_json(silent=True)
         if not json_data:
@@ -44,9 +44,9 @@ def amenity_id(amenity_id):
         json_data = request.get_json(silent=True)
         if not json_data:
             return jsonify('Not a JSON'), 400
-        for key in ['id', 'created_at', 'updated_at']:
-            json_data.pop(key, None)
+        key_to_ignore = ['id', 'created_at', 'updated_at']
         for key, value in json_data.items():
-            setattr(amenity, key, value)
+            if key not in key_to_ignore:
+                setattr(amenity, key, value)
         storage.save()
         return jsonify(amenity), 200
