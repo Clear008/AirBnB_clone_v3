@@ -3,7 +3,7 @@
 This is a module that handls  Review objects
 """
 
-from flask import jsonify,  abort, request
+from flask import jsonify, request, abort
 from models import storage
 from models.review import Review
 from api.v1.views import app_views
@@ -20,7 +20,8 @@ def get_all_reviews(place_id):
     return jsonify(all_reviews)
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_the_review(review_id):
     """Method that Retrieves a Review object"""
     if storage.get(Review, review_id) is None:
@@ -81,9 +82,10 @@ def update_review(review_id):
     if dt is None:
         abort(400, 'Not a JSON')
 
-    for k, v in dt.items():
-        if k not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
-            setattr(storage.get(Review, review_id), k, v)
+    ignore_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
+    for key, value in data.items():
+        if key not in ignore_keys:
+            setattr(review, key, value)
 
     storage.save()
     return jsonify(storage.get(Review, review_id).to_dict()), 200
