@@ -83,9 +83,9 @@ def update_review(review_id):
         abort(400, 'Not a JSON')
 
     ignore_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-    for key, value in data.items():
+    for key, value in dt.items():
         if key not in ignore_keys:
-            setattr(review, key, value)
+            setattr(storage.get(Review, review_id).to_dict(), key, value)
 
     storage.save()
     return jsonify(storage.get(Review, review_id).to_dict()), 200
