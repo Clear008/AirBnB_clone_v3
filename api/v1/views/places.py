@@ -65,3 +65,27 @@ def place_by_id(place_id):
                 setattr(place, key, value)
         storage.save()
         return jsonify(place.to_dict()), 200
+
+
+@app_views.route('/api/v1/places_search', methods=['POST'], strict_slashes=False)
+def place_search():
+    """search place"""
+    if request.method == 'POST':
+        cities = storage.all(City).values()
+        places = storage.all(Place).values()
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify("Not a JSON"), 400
+        if data == {}:
+            list_of_places = [place.to_dict() for place in places]
+            return jsonify(list_of_places)
+        if data['states'] != []:
+            list_of_cities = [city.to_dict() for city in cities if city.state_id in data['states']]
+            list_city_ids = [item["id"] for item in list_of_cities]
+            list_of_places = [place.to_dict() for place in places if place.city_id in list_city_ids]
+        if data['cities'] != []:
+            list_of_cities_2 =[city.to_dict() for city in cities if city.id in data['cities']]
+            list_city_ids2 = [item["id"] for item in list_of_cities_2]
+            list_of_places_2 = [place.to_dict() for place in places if place.city_id in list_city_ids2]    
+        list_of_places.extend(list_of_places_2)
+        return jsonify(list_of_places)
