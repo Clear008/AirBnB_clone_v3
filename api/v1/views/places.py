@@ -79,11 +79,11 @@ def place_search():
         if data == {}:
             list_of_places = [place.to_dict() for place in places]
             return jsonify(list_of_places)
-        if data['states'] != []:
+        if data['states']:
             list_of_cities = [city.to_dict() for city in cities if city.state_id in data['states']]
             list_city_ids = [item["id"] for item in list_of_cities]
             list_of_places = [place.to_dict() for place in places if place.city_id in list_city_ids]
-        if data['cities'] != []:
+        if data['cities']:
             list_of_cities_2 =[city.to_dict() for city in cities if city.id in data['cities']]
             list_city_ids2 = [item["id"] for item in list_of_cities_2]
             list_of_places_2 = [place.to_dict() for place in places if place.city_id in list_city_ids2]    
