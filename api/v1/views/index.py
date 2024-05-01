@@ -33,9 +33,6 @@ def stats():
         }
         count_by_type = {}
         for key, value in classes.items():
-            try:
-                count = storage.count(key)
-            except Exception as e:
-                count = 0
+            count = storage.count(key.__name__)
             count_by_type[value] = count
         return jsonify(count_by_type)
