@@ -3,7 +3,7 @@
 """my route is register in this index"""
 
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import jsonify
 from models import storage
 from models.state import State
 from models.city import City
@@ -19,19 +19,19 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', strict_slashes=False)
 def stats():
     """Returns the number of objects by name"""
-    if request.method == 'GET':
-        classes = {
-            City: "cities",
-            State: "states",
-            Amenity: "amenities",
-            User: "users",
-            Place: "places",
-            Review: "reviews"
-        }
-        count_by_type = {}
-        for key, value in classes.items():
-            count_by_type[value] = storage.count(key.__name__)
-        return jsonify(count_by_type)
+    classes = {
+        City: "cities",
+        State: "states",
+        Amenity: "amenities",
+        User: "users",
+        Place: "places",
+        Review: "reviews"
+    }
+    dictionary = {}
+    for key, value in classes.items():
+        count = storage.count(key.__name__)
+        dictionary[value] = count
+    return jsonify(dictionary)
