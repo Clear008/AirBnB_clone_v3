@@ -33,6 +33,5 @@ def stats():
         }
         count_by_type = {}
         for key, value in classes.items():
-            count = storage.count(key.__name__)
-            count_by_type[value] = count
+            count_by_type[value] = storage.count(key.__name__)
         return jsonify(count_by_type)
