@@ -30,11 +30,18 @@ def stats():
         Place: "places",
         Review: "reviews"
     }
-    count_by_type = {}
-    for key, value in classes.items():
-        try:
-            count = storage.count(key)
-        except Exception as e:
-            count = 0
-        count_by_type[value] = count
-    return jsonify(count_by_type)
+    list_of_counts = {}
+    for key in classes.keys():
+        count = storage.count(key.__name__)
+        if key.__name__ == City:
+            list_of_counts["cities"] = count
+        if key.__name__ == State:
+            list_of_counts["states"] = count
+        if key.__name__ == Amenity:
+            list_of_counts["amenities"] = count
+        if key.__name__ == User:
+            list_of_counts["places"] = count
+        if key.__name__ == Review:
+            list_of_counts["reviews"] = count
+    return jsonify(list_of_counts)
+        
